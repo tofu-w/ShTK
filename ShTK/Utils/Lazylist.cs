@@ -20,7 +20,7 @@ namespace ShTK.Utils
         /// <param name="t"></param>
         public delegate void OnSiftItem(Object o);
             
-        //ga
+        //g
         public Lazylist()
         {
         }
