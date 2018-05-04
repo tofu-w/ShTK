@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
 using ShTK.Graphics;
 using ShTK.Graphics.Drawing;
 using ShTK.Utils;
-using ShTK.Content;
 
 namespace ShTK.Divisions
 {
@@ -13,7 +11,7 @@ namespace ShTK.Divisions
     {
         Box box;
 
-        Lazylist<IBaseDrawable> Children = new Lazylist<IBaseDrawable>();
+        Lazylist<Drawable> Children = new Lazylist<Drawable>();
 
         public override bool Visible { get; set; }
         public override float Alpha { get; set; }
@@ -22,32 +20,34 @@ namespace ShTK.Divisions
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
 
+        /// <summary>
+        /// Will draw a <see cref="Box"/> in place of the division.
+        /// Draws behind all the children
+        /// </summary>
+        public bool Fill;
+
         public Division()
         {
             Children.OnSiftItem += SiftedItem;
         }
 
-        public void Add(Type i)
+        public void Add(IBaseDrawable i)
         {
-            if (i == typeof(IDrawable))
-            {
-                Children.Push((IDrawable)i);
-            }
-            else if (i == typeof(IBaseDrawable))
-            {
-                Children.Push((IBaseDrawable)i);
-            }
-            else
-            {
-                throw new Exception($"Cannot add type {i} to Division");
-            }
+            Children.Push(i as Drawable);
         }
 
-        void SiftedItem()
+        public override void LoadComplete()
         {
+            base.LoadComplete();
 
+            Children.SiftQueue();
         }
-        
+
+        void SiftedItem(object o)
+        {
+            Console.WriteLine(o);
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);
@@ -55,12 +55,10 @@ namespace ShTK.Divisions
 
         public void Update()
         {
-            throw new NotImplementedException();
         }
 
         public void LateUpdate()
         {
-            throw new NotImplementedException();
         }
     }
 }

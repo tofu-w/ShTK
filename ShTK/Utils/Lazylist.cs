@@ -4,6 +4,12 @@ using System.Collections.Generic;
 namespace ShTK.Utils
 {
     /// <summary>
+    /// Sifting can be defined as when an object has just exited the queue and has entered the list
+    /// </summary>
+    /// <param name="t"></param>
+    public delegate void OnSiftItem(Object o);
+
+    /// <summary>
     /// Basically just me cramming a list and a stack together and seeing what happens
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -14,13 +20,8 @@ namespace ShTK.Utils
         List<T> List = new List<T>();
         Stack<T> ListQueue = new Stack<T>();
 
-        /// <summary>
-        /// Sifting can be defined as when an object has just exited the queue and has entered the list
-        /// </summary>
-        /// <param name="t"></param>
-        public delegate void OnSiftItem(Object o);
+        public OnSiftItem OnSiftItem;
             
-        //g
         public Lazylist()
         {
         }
@@ -32,14 +33,7 @@ namespace ShTK.Utils
         /// <param name="t"></param>
         public void Push (T t)
         {
-            if (t.GetType() == type)
-            {
-                ListQueue.Push(t);
-            }
-            else
-            {
-                throw new Exception($"Cannot parse type {t.GetType()} to {type} to add it to the queue.");
-            }
+            ListQueue.Push(t);
         }
 
         /// <summary>
@@ -64,6 +58,7 @@ namespace ShTK.Utils
             foreach (var c in list)
             {
                 List.Add(c);
+                OnSiftItem(c);
             }
         }
 
