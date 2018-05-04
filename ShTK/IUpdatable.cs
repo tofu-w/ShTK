@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace ShTK
 {
-    public class Class1
+    public interface IUpdatable
     {
+        void Update();
+
+        void LateUpdate();
     }
 }

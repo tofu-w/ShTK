@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShTK", "ShTK\ShTK.csproj", "{F383CBB6-E06B-49BC-9746-9CA93670DD1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShTK.Tests", "ShTK.Tests\ShTK.Tests.csproj", "{D0DA3579-51F0-47B6-A3C9-1B457B534B3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F383CBB6-E06B-49BC-9746-9CA93670DD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F383CBB6-E06B-49BC-9746-9CA93670DD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F383CBB6-E06B-49BC-9746-9CA93670DD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0DA3579-51F0-47B6-A3C9-1B457B534B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0DA3579-51F0-47B6-A3C9-1B457B534B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0DA3579-51F0-47B6-A3C9-1B457B534B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0DA3579-51F0-47B6-A3C9-1B457B534B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
