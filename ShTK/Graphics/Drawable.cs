@@ -14,26 +14,17 @@ namespace ShTK.Graphics
         public abstract Vector2 Position { get; set; }
         public abstract Vector2 Scale { get; set; }
         public abstract float Rotation { get; set; }
-        public Anchor Anchor { get; set; }
-        public Anchor Origin { get; set; }
+        public abstract Anchor Anchor { get; set; }
+        public abstract Anchor Origin { get; set; }
 
         public RectangleF Rectangle => new RectangleF(Position, Scale);
 
-        public Drawable()
-        {
+        public Drawable() { }
 
-        }
+        public virtual void Load() { }
 
-        public virtual void Load()
-        {
-        }
+        public virtual void LoadComplete() { }
 
-        public virtual void LoadComplete()
-        {
-        }
-
-        public virtual void Draw()
-        {
-        }
+        public virtual void Draw() { }
     }
 }

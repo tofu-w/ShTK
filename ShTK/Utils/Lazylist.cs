@@ -17,7 +17,7 @@ namespace ShTK.Utils
     {
         Type type => typeof(T);
 
-        List<T> List = new List<T>();
+        public List<T> List = new List<T>();
         Stack<T> ListQueue = new Stack<T>();
 
         public OnSiftItem OnSiftItem;

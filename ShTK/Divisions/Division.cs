@@ -11,7 +11,7 @@ namespace ShTK.Divisions
     {
         Box box;
 
-        Lazylist<Drawable> Children = new Lazylist<Drawable>();
+        public Lazylist<Drawable> Children = new Lazylist<Drawable>();
 
         public override bool Visible { get; set; }
         public override float Alpha { get; set; }
@@ -19,6 +19,10 @@ namespace ShTK.Divisions
         public override Vector2 Position { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
+        public override Anchor Anchor { get; set; }
+        public override Anchor Origin { get; set; }
+
+        public RectangleF Bounds => new RectangleF(Position, Scale);
 
         /// <summary>
         /// Will draw a <see cref="Box"/> in place of the division.
@@ -36,6 +40,11 @@ namespace ShTK.Divisions
             Children.Push(i as Drawable);
         }
 
+        void SiftedItem(object o)
+        {
+            Console.WriteLine(o);
+        }
+
         public override void LoadComplete()
         {
             base.LoadComplete();
@@ -43,21 +52,16 @@ namespace ShTK.Divisions
             Children.SiftQueue();
         }
 
-        void SiftedItem(object o)
-        {
-            Console.WriteLine(o);
-        }
-
         public void Dispose()
         {
             GC.SuppressFinalize(this);
         }
 
-        public void Update()
+        public virtual void Update()
         {
         }
 
-        public void LateUpdate()
+        public virtual void LateUpdate()
         {
         }
     }
