@@ -94,6 +94,8 @@ namespace ShTK.Graphics
 
         public override void Draw()
         {
+            base.Draw();
+
             //TODO: Try drawing using the Box method (for unification)
 
             GL.BindTexture(TextureTarget.Texture2D, ID);

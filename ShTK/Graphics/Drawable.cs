@@ -12,8 +12,8 @@ namespace ShTK.Graphics
     {
         public abstract bool Visible                { get; set; }
         public abstract float Alpha                 { get; set; }
-
         public abstract Color4 Colour               { get; set; }
+
         public abstract Vector2 Scale               { get; set; }
 
         public float ParentRotation;
@@ -44,8 +44,8 @@ namespace ShTK.Graphics
         public Vector2 AbsolutePosition => 
             new Vector2
             (
-                Anchors.VectorFromAnchor (Anchor, parentBounds).X - Anchors.VectorFromAnchor (Origin, Rectangle).X + parentBounds.X + Position.X, 
-                Anchors.VectorFromAnchor (Anchor, parentBounds).Y - Anchors.VectorFromAnchor (Origin, Rectangle).Y + parentBounds.Y + Position.Y
+                parentBounds.X + Anchors.VectorFromAnchor (Anchor, parentBounds).X - Anchors.VectorFromAnchor (Origin, Rectangle).X + Position.X * 2,
+                parentBounds.Y + Anchors.VectorFromAnchor (Anchor, parentBounds).Y - Anchors.VectorFromAnchor (Origin, Rectangle).Y + Position.Y * 2
             );
 
         public Drawable()
@@ -58,7 +58,12 @@ namespace ShTK.Graphics
 
         public virtual void LoadComplete() { }
 
-        public virtual void Draw() { }
+        public virtual void Draw() {
+            //anchor: screen width
+            //origin: right
+
+            Console.WriteLine(Anchors.VectorFromAnchor(Origin, Rectangle).X == Rectangle.Right);
+        }
 
         public virtual void Update() { }
 
