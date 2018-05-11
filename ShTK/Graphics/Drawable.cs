@@ -32,11 +32,10 @@ namespace ShTK.Graphics
         /// <summary>
         /// Rectangular bounds of parent object
         /// </summary>
-        public RectangleF parentBounds = App.Bounds.ToRectangleF();
+        public RectangleF parentBounds;
 
         public RectangleF Rectangle => new RectangleF(Position, Scale);
-
-        //TODO calculate for anchors
+        
         //READONLY
         /// <summary>
         /// Should *not* be used for high level code

@@ -40,6 +40,8 @@ namespace ShTK.Utils
         /// Goes through all the entires in the <see cref="ListQueue"/> and 
         /// adds them to the <see cref="List"/>
         /// </summary>
+        /// <param name="reciprocate">Should all the new entries be added in the correct order or 
+        /// preserved in a first in last out stack order? True by default</param>
         public void SiftQueue(bool reciprocate = true)
         {
             List<T> list = new List<T>();
@@ -58,7 +60,7 @@ namespace ShTK.Utils
             foreach (var c in list)
             {
                 List.Add(c);
-                OnSiftItem(c);
+                OnSiftItem?.Invoke(c);
             }
         }
 
