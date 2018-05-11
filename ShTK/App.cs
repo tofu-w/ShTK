@@ -17,6 +17,7 @@ namespace ShTK
 
         public App() : base(1366, 768, GraphicsMode.Default, string.Format("Running {0} - Powered by ShTK", Assembly.GetCallingAssembly().GetName().Name))
         {
+            Bounds = new Rectangle(ClientRectangle);
         }
 
         protected override void OnLoad(EventArgs e)

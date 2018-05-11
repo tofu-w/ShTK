@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ShTK.Graphics
 {
-    public class Texture2D : Drawable, IDisposable
+    public class Texture2D : Drawable
     {
         private int id;
         private int width, height;
@@ -18,11 +18,13 @@ namespace ShTK.Graphics
 
         public override bool Visible { get; set; }
         public override float Alpha { get; set; }
-        public override Color4 Colour { get; set; }
-
         public override Vector2 Position { get; set; }
+        public override Color4 Colour { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
+
+        public override Anchor Anchor { get; set; }
+        public override Anchor Origin { get; set; }
 
         private Rectangle lockbits;
 
@@ -36,6 +38,8 @@ namespace ShTK.Graphics
             Alpha = 1.0f;
         }
 
+        //TODO: implement unified content pipeline that doesn't suck
+        //also add support for multiple sprites and animation
         public Texture2D(string path)
         {
             Load(path);
@@ -90,24 +94,29 @@ namespace ShTK.Graphics
 
         public override void Draw()
         {
+            //TODO: Try drawing using the Box method (for unification)
+
             GL.BindTexture(TextureTarget.Texture2D, ID);
             GL.Begin(PrimitiveType.Triangles);
             GL.Color4(Colour);
 
             //△FDE
-            GL.TexCoord2(0, 0); GL.Vertex2(Position.X, Position.Y);       //F
-            GL.TexCoord2(1, 1); GL.Vertex2(Position.X + Scale.X, Position.Y + Scale.Y);   //D
-            GL.TexCoord2(0, 1); GL.Vertex2(Position.X, Position.Y + Scale.Y);     //E
+            GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F
+            GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //D
+            GL.TexCoord2(0, 1); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);                   //E
 
             //△ABC
-            GL.TexCoord2(0, 0); GL.Vertex2(Position.X, Position.Y);       //A
-            GL.TexCoord2(1, 0); GL.Vertex2(Position.X + Scale.X, Position.Y);     //B
-            GL.TexCoord2(1, 1); GL.Vertex2(Position.X + Scale.X, Position.Y + Scale.Y);   //C
+            GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //A
+            GL.TexCoord2(1, 0); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);                   //B
+            GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //C
+
             GL.End();
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
+        
             GC.SuppressFinalize(this);
         }
     }

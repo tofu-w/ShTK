@@ -16,9 +16,9 @@ namespace ShTK.Utils
     public class Lazylist <T> : IDisposable
     {
         Type type => typeof(T);
-
+        
         public List<T> List = new List<T>();
-        Stack<T> ListQueue = new Stack<T>();
+        private Stack<T> ListQueue = new Stack<T>();
 
         public OnSiftItem OnSiftItem;
             

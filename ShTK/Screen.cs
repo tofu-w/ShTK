@@ -1,7 +1,7 @@
-﻿using ShTK.Divisions;
-using ShTK.Graphics;
+﻿using System;
 using OpenTK;
-using System;
+using ShTK.Divisions;
+using ShTK.Graphics;
 
 namespace ShTK
 {
@@ -36,16 +36,37 @@ namespace ShTK
                 c.LoadComplete();
 
             Loaded = true;
+
+            Children.SiftQueue();
+
+            base.LoadComplete();
         }
 
         public override void Update()
         {
             base.Update();
+
+            foreach (var c in Children.List)
+                c.Update();
         }
 
         public override void LateUpdate()
         {
             base.LateUpdate();
+
+            foreach (var c in Children.List)
+                c.LateUpdate();
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
