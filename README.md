@@ -1,5 +1,5 @@
 # ShTK
-A basic OpenGL framework to build graphics applications with [NOT FINISHED]
+A high level, multi purpose OpenGL framework to build simple graphics applications with [NOT FINISHED]
 
 # Not finished!
 go away
