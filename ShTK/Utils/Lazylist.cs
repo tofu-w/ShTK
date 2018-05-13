@@ -52,7 +52,7 @@ namespace ShTK.Utils
                 list.Add(ListQueue.Pop());
             }
 
-            //reciprocates only if true useful for preserving order, occurs by default
+            //reciprocates only if true, useful for preserving order, occurs by default
             if (reciprocate)
                 list.Reverse();
 

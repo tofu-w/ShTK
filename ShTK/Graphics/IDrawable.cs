@@ -36,6 +36,8 @@ namespace ShTK.Graphics
         /// </summary>
         Vector2 Position { get; set; }
 
+        Vector2 AbsolutePosition { get; set; }
+
         /// <summary>
         /// A vector2 of the size
         /// </summary>

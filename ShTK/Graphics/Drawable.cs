@@ -10,21 +10,34 @@ namespace ShTK.Graphics
     /// </summary>
     public abstract class Drawable : IDrawable, IUpdatable, IDisposable
     {
+        /// <summary>
+        /// Responsible for handling not only Draw calls but Update calls as well. 
+        /// Disabling Visible will effectively disable the Drawable altogether.
+        /// For proper disposal use <see cref="Dispose()"/>
+        /// </summary>
         public abstract bool Visible                { get; set; }
+
+        /// <summary>
+        /// Drawable's opacity, uses a scale of 0 to 1
+        /// </summary>
         public abstract float Alpha                 { get; set; }
+
+        /// <summary>
+        /// Tint of Drawable
+        /// </summary>
         public abstract Color4 Colour               { get; set; }
+
+        //Relative position
+        /// <summary>
+        /// Use for high level, general use transforms.
+        /// </summary>
+        public abstract Vector2 Position            { get; set; }
 
         public abstract Vector2 Scale               { get; set; }
 
         public float ParentRotation;
         public abstract float Rotation              { get; set; }
 
-        //Relative position
-        /// <summary>
-        /// Do NOT use for low level transformations.
-        /// General use only
-        /// </summary>
-        public abstract Vector2 Position { get; set; }
 
         public abstract Anchor Anchor { get; set; }
         public abstract Anchor Origin { get; set; }
@@ -32,7 +45,7 @@ namespace ShTK.Graphics
         /// <summary>
         /// Rectangular bounds of parent object
         /// </summary>
-        public RectangleF parentBounds;
+        public RectangleF parentBounds = App.Bounds.ToRectangleF();
 
         public RectangleF Rectangle => new RectangleF(Position, Scale);
         
@@ -40,12 +53,21 @@ namespace ShTK.Graphics
         /// <summary>
         /// Should *not* be used for high level code
         /// </summary>
-        public Vector2 AbsolutePosition => 
-            new Vector2
-            (
-                parentBounds.X + Anchors.VectorFromAnchor (Anchor, parentBounds).X - Anchors.VectorFromAnchor (Origin, Rectangle).X + Position.X * 2,
-                parentBounds.Y + Anchors.VectorFromAnchor (Anchor, parentBounds).Y - Anchors.VectorFromAnchor (Origin, Rectangle).Y + Position.Y * 2
-            );
+        public Vector2 AbsolutePosition
+        {
+            get
+            {
+                return new Vector2
+                (
+                    Anchors.VectorFromAnchor(Anchor, parentBounds).X - Anchors.VectorFromAnchor(Origin, Rectangle).X + Position.X * 2,
+                    Anchors.VectorFromAnchor(Anchor, parentBounds).Y - Anchors.VectorFromAnchor(Origin, Rectangle).Y + Position.Y * 2
+                );
+            }
+            set
+            {
+                throw new Exception("AbsolutePosition cannot be set, use Position vector2 instead");
+            }
+        }
 
         public Drawable()
         {
@@ -57,12 +79,7 @@ namespace ShTK.Graphics
 
         public virtual void LoadComplete() { }
 
-        public virtual void Draw() {
-            //anchor: screen width
-            //origin: right
-
-            Console.WriteLine(Anchors.VectorFromAnchor(Origin, Rectangle).X == Rectangle.Right);
-        }
+        public virtual void Draw() { }
 
         public virtual void Update() { }
 
@@ -98,6 +115,7 @@ namespace ShTK.Graphics
             Child.Colour = Parent.Colour;
             Child.ParentRotation = Parent.Rotation;
             Child.Position = Parent.Position;
+            Child.parentBounds = new RectangleF(Parent.AbsolutePosition, Parent.Scale);
         }
     }
 }

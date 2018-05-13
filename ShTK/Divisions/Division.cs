@@ -34,13 +34,18 @@ namespace ShTK.Divisions
         public Division()
         {
             Children = new Lazylist<Drawable>();
+
+            box = new Box()
+            {
+                Visible = true,
+                Colour = Color4.White
+            };
         }
 
         public void Add(IBaseDrawable i)
         {
             Children.Push(i as Drawable);
         }
-        
 
         public override void LoadComplete()
         {
@@ -51,6 +56,18 @@ namespace ShTK.Divisions
         {
             //Update transformations
             MaintainChildParentRelationship(Children.List, this);
+
+            box.Position = AbsolutePosition;
+            box.Scale = Scale;
+        }
+
+        public override void Draw()
+        {
+            //TODO toggle visibillity with fill
+            if (Fill)
+                box.Draw();
+
+            base.Draw();
         }
 
         public override void Dispose()

@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ShTK.Graphics.Drawing
 {
+    //TODO: inherit from Drawable
     public class Box
     {
         public Color4 Colour { get; set; }
@@ -21,6 +22,11 @@ namespace ShTK.Graphics.Drawing
             }
         }
 
+        public void Draw()
+        {
+            Draw(App.Bounds);
+        }
+
         public void Draw (Rectangle Viewport)
         {
             if (Visible)
@@ -36,19 +42,6 @@ namespace ShTK.Graphics.Drawing
 
                 GL.End();
             }
-        }
-
-        public void Draw()
-        {
-            Draw(App.Bounds);
-        }
-        
-        public void Load()
-        {
-        }
-
-        public void Update()
-        {
         }
     }
 }
