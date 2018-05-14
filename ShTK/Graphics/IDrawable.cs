@@ -20,15 +20,17 @@ namespace ShTK.Graphics
         void Draw();
 
         /// <summary>
-        /// Will not only toggle visibility but will also disable the drawable entirely
+        /// Responsible for handling not only Draw calls but Update calls as well. 
+        /// Disabling Visible will effectively disable the Drawable altogether.
+        /// For proper disposal use <see cref="Dispose()"/>
         /// </summary>
-        bool Visible { get; }
+        bool Visible { get; set; }
 
         /// <summary>
         /// Opacity of the drawable
         /// </summary>
-        float Alpha { get; }
-
+        float Alpha { get; set; }
+        
         /// <summary>
         /// A vector2 of the objects coordinates. 
         /// Will be affected by fields such as <see cref="Anchor"/> and <see cref="Origin"/>,

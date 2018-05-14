@@ -11,6 +11,7 @@ namespace ShTK.Graphics.Drawing
         public Vector2 Position { get; set; }
         public Vector2 Scale { get; set; }
         public bool Visible { get; set; }
+        public float alpha;
 
         public Box()
         {
@@ -33,7 +34,7 @@ namespace ShTK.Graphics.Drawing
             {
                 GL.Viewport(Viewport.ToSystemDrawing());
                 GL.Begin(PrimitiveType.Quads);
-                GL.Color4(Colour);
+                GL.Color4(Colour.R, Colour.G, Colour.B, alpha);
 
                 GL.Vertex2(Position.X, Position.Y);
                 GL.Vertex2(Position.X, Position.Y + Scale.Y);

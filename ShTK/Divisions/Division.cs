@@ -3,7 +3,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using ShTK.Graphics;
 using ShTK.Graphics.Drawing;
-using ShTK.Utils;
+using ShTK.Generic;
 
 namespace ShTK.Divisions
 {
@@ -23,7 +23,6 @@ namespace ShTK.Divisions
         public bool Fill;
 
         public override bool Visible { get; set; }
-        public override float Alpha { get; set; }
         public override Color4 Colour { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
@@ -59,6 +58,8 @@ namespace ShTK.Divisions
 
             box.Position = AbsolutePosition;
             box.Scale = Scale;
+            box.Colour = Colour;
+            box.alpha = Alpha;
         }
 
         public override void Draw()

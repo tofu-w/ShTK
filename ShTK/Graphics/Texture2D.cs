@@ -9,30 +9,22 @@ namespace ShTK.Graphics
 {
     public class Texture2D : Drawable
     {
-        private int id;
-        private int width, height;
-
-        public int ID { get { return id; } }
-        public int Width { get { return width; } }
-        public int Height { get { return height; } }
+        private Rectangle lockbits;
+        public int ID;
 
         public override bool Visible { get; set; }
-        public override float Alpha { get; set; }
-        public override Vector2 Position { get; set; }
         public override Color4 Colour { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
-
         public override Anchor Anchor { get; set; }
         public override Anchor Origin { get; set; }
-
-        private Rectangle lockbits;
+        public override Vector2 Position { get; set; }
 
         public Texture2D(int id, int width, int height)
         {
-            this.id = id;
-            this.width = width;
-            this.height = height;
+            ID = id;
+            Width = width;
+            Height = height;
 
             Visible = true;
             Alpha = 1.0f;
@@ -85,9 +77,9 @@ namespace ShTK.Graphics
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMinFilter.Linear);
 
-            this.id = id;
-            this.width = bitmap.Width;
-            this.height = bitmap.Height;
+            ID = id;
+            Width = bitmap.Width;
+            Height = bitmap.Height;
 
             bitmap.Dispose();
         }
@@ -100,7 +92,7 @@ namespace ShTK.Graphics
 
             GL.BindTexture(TextureTarget.Texture2D, ID);
             GL.Begin(PrimitiveType.Triangles);
-            GL.Color4(Colour);
+            GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
 
             //△FDE
             GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F

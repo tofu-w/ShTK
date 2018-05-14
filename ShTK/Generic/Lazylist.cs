@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ShTK.Utils
+namespace ShTK.Generic
 {
     /// <summary>
     /// Sifting can be defined as when an object has just exited the queue and has entered the list

@@ -2,53 +2,78 @@
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
+using ShTK.Maths;
 
 namespace ShTK.Graphics
 {
+    public enum Axis
+    {
+        Width,
+        Height
+    }
+
     /// <summary>
     /// Anything that can load and draw is considered a drawable
     /// </summary>
     public abstract class Drawable : IDrawable, IUpdatable, IDisposable
     {
-        /// <summary>
-        /// Responsible for handling not only Draw calls but Update calls as well. 
-        /// Disabling Visible will effectively disable the Drawable altogether.
-        /// For proper disposal use <see cref="Dispose()"/>
-        /// </summary>
+#region fields
         public abstract bool Visible                { get; set; }
 
-        /// <summary>
-        /// Drawable's opacity, uses a scale of 0 to 1
-        /// </summary>
-        public abstract float Alpha                 { get; set; }
+        private float alpha = 1;
 
-        /// <summary>
-        /// Tint of Drawable
-        /// </summary>
+        public float? ParentAlpha;
+
+        public float Alpha
+        {
+            get
+            {
+                if (ParentAlpha == null)
+                {
+                    return alpha;
+                }
+                else
+                {
+                    return (float)ParentAlpha * alpha;
+                }
+            }
+            set
+            {
+                alpha = value;
+            }
+        }
+        
         public abstract Color4 Colour               { get; set; }
-
-        //Relative position
-        /// <summary>
-        /// Use for high level, general use transforms.
-        /// </summary>
-        public abstract Vector2 Position            { get; set; }
-
+        
         public abstract Vector2 Scale               { get; set; }
 
         public float ParentRotation;
         public abstract float Rotation              { get; set; }
 
+        public abstract Anchor Anchor               { get; set; }
+        public abstract Anchor Origin               { get; set; }
 
-        public abstract Anchor Anchor { get; set; }
-        public abstract Anchor Origin { get; set; }
+        public float X      { get { return Position.X; } set { Position = new Vector2(value, Y); } }
+        public float Y      { get { return Position.Y; } set { Position = new Vector2(Scale.X, X); } }
+
+        public float Width  { get { return Scale.X; } set { Scale = new Vector2(value, Height); } }
+        public float Height { get { return Scale.Y; } set { Scale = new Vector2(Scale.X, Width); } }
 
         /// <summary>
-        /// Rectangular bounds of parent object
+        /// Rectangular bounds of parent object. Set to <see cref="App.Bounds"/> by default
         /// </summary>
         public RectangleF parentBounds = App.Bounds.ToRectangleF();
 
+        /// <summary>
+        /// Bounds of drawable, read only
+        /// </summary>
         public RectangleF Rectangle => new RectangleF(Position, Scale);
-        
+
+        /// <summary>
+        /// Use for high level, general use transforms.
+        /// </summary>
+        public abstract Vector2 Position { get; set; }
+
         //READONLY
         /// <summary>
         /// Should *not* be used for high level code
@@ -65,9 +90,13 @@ namespace ShTK.Graphics
             }
             set
             {
-                throw new Exception("AbsolutePosition cannot be set, use Position vector2 instead");
+                throw new Exception("AbsolutePosition is a readonly property and cannot be set, use Position, X or Y properties instead");
             }
         }
+
+#endregion
+
+#region methods
 
         public Drawable()
         {
@@ -89,7 +118,31 @@ namespace ShTK.Graphics
         {
             GC.SuppressFinalize(this);
         }
+        #endregion
 
+        #region utils
+        /// <summary>
+        /// Get the percentage of an axis. Returns 0 if an error has occured.
+        /// </summary>
+        /// <param name="perc"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public float GetProportional(float perc, Axis a)
+        {
+            switch (a)
+            {
+                case Axis.Width:
+                    return MathsUtils.GetProportional(perc, Width);
+
+                case Axis.Height:
+                    return MathsUtils.GetProportional(perc, Height);
+            }
+
+            return 0;
+        }
+        #endregion
+
+        #region static methods
         /// <summary>
         /// Transfer transformation properties from one <see cref="IDrawable"/> to a list of <see cref="Drawable"/>
         /// </summary>
@@ -111,11 +164,11 @@ namespace ShTK.Graphics
         public static void MaintainChildParentRelationship(Drawable Child, IDrawable Parent)
         {
             Child.Visible = Parent.Visible;
-            Child.Alpha = Parent.Alpha;
             Child.Colour = Parent.Colour;
             Child.ParentRotation = Parent.Rotation;
-            Child.Position = Parent.Position;
+            Child.ParentAlpha = Parent.Alpha;
             Child.parentBounds = new RectangleF(Parent.AbsolutePosition, Parent.Scale);
         }
+#endregion
     }
 }
