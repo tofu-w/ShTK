@@ -25,7 +25,7 @@ namespace ShTK.Graphics.Drawing
 
         public void Draw()
         {
-            Draw(App.Bounds);
+            Draw(App.ScreenBounds);
         }
 
         public void Draw (Rectangle Viewport)

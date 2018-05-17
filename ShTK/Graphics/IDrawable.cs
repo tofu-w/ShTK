@@ -24,7 +24,7 @@ namespace ShTK.Graphics
         /// Disabling Visible will effectively disable the Drawable altogether.
         /// For proper disposal use <see cref="Dispose()"/>
         /// </summary>
-        bool Visible { get; set; }
+        bool? Visible { get; set; }
 
         /// <summary>
         /// Opacity of the drawable

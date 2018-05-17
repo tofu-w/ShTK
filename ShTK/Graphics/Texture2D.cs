@@ -12,7 +12,7 @@ namespace ShTK.Graphics
         private Rectangle lockbits;
         public int ID;
 
-        public override bool Visible { get; set; }
+        public override bool? Visible { get; set; }
         public override Color4 Colour { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }
@@ -86,25 +86,28 @@ namespace ShTK.Graphics
 
         public override void Draw()
         {
-            base.Draw();
+            if ((bool)Visible)
+            { 
+                base.Draw();
 
-            //TODO: Try drawing using the Box method (for unification)
+                //TODO: Try drawing using the Box method (for unification)
 
-            GL.BindTexture(TextureTarget.Texture2D, ID);
-            GL.Begin(PrimitiveType.Triangles);
-            GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
+                GL.BindTexture(TextureTarget.Texture2D, ID);
+                GL.Begin(PrimitiveType.Triangles);
+                GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
 
-            //△FDE
-            GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F
-            GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //D
-            GL.TexCoord2(0, 1); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);                   //E
+                //△FDE
+                GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F
+                GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //D
+                GL.TexCoord2(0, 1); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);                   //E
 
-            //△ABC
-            GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //A
-            GL.TexCoord2(1, 0); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);                   //B
-            GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //C
+                //△ABC
+                GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //A
+                GL.TexCoord2(1, 0); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);                   //B
+                GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //C
 
-            GL.End();
+                GL.End();
+            }
         }
 
         public override void Dispose()

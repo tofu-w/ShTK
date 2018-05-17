@@ -15,10 +15,10 @@ namespace ShTK.Graphics
     /// <summary>
     /// Anything that can load and draw is considered a drawable
     /// </summary>
-    public abstract class Drawable : IDrawable, IUpdatable, IDisposable
+    public abstract class Drawable : IDisposable, IUpdatable, IDrawable
     {
-#region fields
-        public abstract bool Visible                { get; set; }
+        #region fields
+        public abstract bool? Visible                { get; set; }
 
         private float alpha = 1;
 
@@ -60,9 +60,9 @@ namespace ShTK.Graphics
         public float Height { get { return Scale.Y; } set { Scale = new Vector2(Scale.X, Width); } }
 
         /// <summary>
-        /// Rectangular bounds of parent object. Set to <see cref="App.Bounds"/> by default
+        /// Rectangular bounds of parent object. Set to <see cref="App.ScreenBounds"/> by default
         /// </summary>
-        public RectangleF parentBounds = App.Bounds.ToRectangleF();
+        public RectangleF parentBounds = App.ScreenBounds.ToRectangleF();
 
         /// <summary>
         /// Bounds of drawable, read only
@@ -96,7 +96,7 @@ namespace ShTK.Graphics
 
 #endregion
 
-#region methods
+        #region methods
 
         public Drawable()
         {
@@ -114,10 +114,8 @@ namespace ShTK.Graphics
 
         public virtual void LateUpdate() { }
 
-        public virtual void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
+        public virtual void Dispose() { }
+
         #endregion
 
         #region utils
@@ -163,6 +161,7 @@ namespace ShTK.Graphics
         /// <param name="Parent"></param>
         public static void MaintainChildParentRelationship(Drawable Child, IDrawable Parent)
         {
+            //TODO create ONE IDrawable parent
             Child.Visible = Parent.Visible;
             Child.Colour = Parent.Colour;
             Child.ParentRotation = Parent.Rotation;

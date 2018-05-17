@@ -22,7 +22,7 @@ namespace ShTK.Divisions
         /// </summary>
         public bool Fill;
 
-        public override bool Visible { get; set; }
+        public override bool? Visible { get; set; }
         public override Color4 Colour { get; set; }
         public override Vector2 Scale { get; set; }
         public override float Rotation { get; set; }

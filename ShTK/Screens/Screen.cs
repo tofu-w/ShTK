@@ -3,7 +3,7 @@ using OpenTK;
 using ShTK.Divisions;
 using ShTK.Graphics;
 
-namespace ShTK
+namespace ShTK.Screens
 {
     public class Screen : Division
     {
@@ -14,7 +14,7 @@ namespace ShTK
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
             Position = Vector2.Zero;
-            Scale = new Vector2(App.Bounds.Width, App.Bounds.Height);
+            Scale = new Vector2(App.ScreenBounds.Width, App.ScreenBounds.Height);
             Children.OnSiftItem += OnSift;
         }
 

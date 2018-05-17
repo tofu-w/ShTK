@@ -4,6 +4,8 @@ using System.Reflection;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
+using ShTK.Input;
 
 namespace ShTK
 {
@@ -13,11 +15,13 @@ namespace ShTK
 
         public Matrix4 projMatrix;
 
-        public static Rectangle Bounds;
+        public static Rectangle ScreenBounds;
+
+        public static KeyListener KeyListener = new KeyListener();
 
         public App() : base(1366, 768, GraphicsMode.Default, string.Format("Running {0} - Powered by ShTK", Assembly.GetCallingAssembly().GetName().Name))
         {
-            Bounds = new Rectangle(ClientRectangle);
+            ScreenBounds = new Rectangle(ClientRectangle);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -33,7 +37,10 @@ namespace ShTK
             GL.ClearColor(backgroundColour);
 
             GL.Enable(EnableCap.Texture2D);
-
+            
+            GL.Enable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Gequal, 0.5f);
+            
             BeginLoad();
         }
 
@@ -49,11 +56,27 @@ namespace ShTK
             GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
         }
 
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            base.OnUpdateFrame(e);
+
+            KeyListener.Update();
+
+            Update();
+
+            KeyListener.LateUpdate();
+        }
+
+        public virtual void Update()
+        {
+
+        }
+
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
 
-            Bounds = new Rectangle (ClientRectangle);
+            ScreenBounds = new Rectangle (ClientRectangle);
 
             GL.Viewport(0, 0, Width, Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
