@@ -108,9 +108,9 @@ namespace ShTK.Graphics
 
         public virtual void LoadComplete() { }
 
-        public virtual void Draw() { }
+        public virtual void Draw() { Console.WriteLine(Anchors.VectorFromAnchor(Anchor, parentBounds).X - Anchors.VectorFromAnchor(Origin, Rectangle).X + Position.X * 2); }
 
-        public virtual void Update() { }
+        public virtual void Update() {  }
 
         public virtual void LateUpdate() { }
 

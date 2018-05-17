@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Reflection;
 using OpenTK;
 using OpenTK.Graphics;
@@ -18,6 +17,7 @@ namespace ShTK
         public static Rectangle ScreenBounds;
 
         public static KeyListener KeyListener = new KeyListener();
+        public static MouseListener MouseListener = new MouseListener();
 
         public App() : base(1366, 768, GraphicsMode.Default, string.Format("Running {0} - Powered by ShTK", Assembly.GetCallingAssembly().GetName().Name))
         {
@@ -61,10 +61,13 @@ namespace ShTK
             base.OnUpdateFrame(e);
 
             KeyListener.Update();
+            MouseListener.Update();
+            MouseListener.Position = new Point (PointToClient(new System.Drawing.Point(Mouse.GetCursorState().X, Mouse.GetCursorState().Y)));
 
             Update();
 
             KeyListener.LateUpdate();
+            MouseListener.LateUpdate();
         }
 
         public virtual void Update()
@@ -92,6 +95,6 @@ namespace ShTK
         public virtual void Draw()
         {
 
-        }
+        }        
     }
 }

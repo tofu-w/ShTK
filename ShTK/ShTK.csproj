@@ -55,10 +55,12 @@
     <Compile Include="Graphics\Spritefont.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\KeyListener.cs" />
+    <Compile Include="Input\MouseListener.cs" />
     <Compile Include="IO\Bindings\Bindable.cs" />
     <Compile Include="IO\Bindings\IBindable.cs" />
     <Compile Include="IUpdatable.cs" />
     <Compile Include="Maths\MathsUtils.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />
     <Compile Include="RectangleF.cs" />
