@@ -3,13 +3,6 @@ using OpenTK.Input;
 
 namespace ShTK.Input
 {
-    public enum Stroke
-    {
-        Down,
-        Pressed,
-        Up
-    }
-
     public class MouseListener : IUpdatable
     {
         public Point Position;
@@ -17,36 +10,29 @@ namespace ShTK.Input
         MouseState oldState;
         MouseState newState;
 
-        public bool Button(Stroke s, MouseButton mb)
+        public bool ButtonDown(MouseButton mb)
         {
-            bool cond;
-            
-            switch (s)
-            {
-                case Stroke.Pressed:
-                    cond = newState.IsButtonDown(mb) && oldState.IsButtonUp(mb);
-                    break;
+            return newState.IsButtonDown(mb) && oldState.IsButtonUp(mb);
+        }
 
-                case Stroke.Up:
-                    cond = newState.IsButtonUp(mb) && oldState.IsButtonDown(mb);
-                    break;
+        public bool Button(MouseButton mb)
+        {
+            return newState.IsButtonDown(mb);
+        }
 
-                default:
-                    cond = newState.IsButtonDown(mb);
-                    break;
-            }
-
-            return cond;
+        public bool ButtonUp(MouseButton mb)
+        {
+            return newState.IsButtonUp(mb) && oldState.IsButtonDown(mb);
         }
 
         public void Update()
         {
-
+            newState = Mouse.GetState();
         }
 
         public void LateUpdate()
         {
-
+            oldState = newState;
         }
     }
 }

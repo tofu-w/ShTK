@@ -14,7 +14,7 @@ namespace ShTK.Input
         /// <returns></returns>
         public bool KeyDown(Key k)
         {
-            if (newState.IsKeyDown(k))
+            if (newState.IsKeyDown(k) && oldState.IsKeyUp(k))
             {
                 return true;
             }
@@ -46,9 +46,9 @@ namespace ShTK.Input
         /// </summary>
         /// <param name="k"></param>
         /// <returns></returns>
-        public bool KeyPressed(Key k)
+        public bool Key(Key k)
         {
-            if (newState.IsKeyDown(k) && oldState.IsKeyUp(k))
+            if (newState.IsKeyDown(k))
             {
                 return true;
             }

@@ -47,7 +47,8 @@ namespace ShTK.Graphics
                     Char.Add(new Texture2D(path, PointFromChar(c))
                     {
                         Scale = Scale,
-                        Position = new Vector2(Position.X + (count.X / 2) * a, Position.Y)
+                        Position = new Vector2(Position.X + (count.X / 2) * a, Position.Y),
+                        Visible = true
                     });
                 }
 

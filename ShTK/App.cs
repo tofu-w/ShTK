@@ -66,8 +66,8 @@ namespace ShTK
 
             Update();
 
-            KeyListener.LateUpdate();
             MouseListener.LateUpdate();
+            KeyListener.LateUpdate();
         }
 
         public virtual void Update()
