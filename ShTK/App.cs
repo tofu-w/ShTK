@@ -1,100 +1,70 @@
 ﻿using System;
-using System.Reflection;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using ShTK.Input;
+using ShTK.Divisions;
+using ShTK.Graphics;
+using ShTK.Maths;
+using ShTK.Content;
 
 namespace ShTK
 {
-    public class App : GameWindow
+    public class App : AppWindow
     {
-        public Color4 backgroundColour = Color4.CornflowerBlue; //new Color4 (137, 137, 137, 0);
+        public Division Drawables;
 
-        public Matrix4 projMatrix;
-
-        public static Rectangle ScreenBounds;
-
-        public static KeyListener KeyListener = new KeyListener();
-        public static MouseListener MouseListener = new MouseListener();
-
-        public App() : base(1366, 768, GraphicsMode.Default, string.Format("Running {0} - Powered by ShTK", Assembly.GetCallingAssembly().GetName().Name))
+        public App()
         {
-            ScreenBounds = new Rectangle(ClientRectangle);
+            Drawables = new Division()
+            {
+                Anchor = Anchor.TopLeft,
+                Origin = Anchor.TopLeft,
+                Scale = new Vector2(ScreenBounds.Width, ScreenBounds.Height),
+                Alpha = 1,
+                Colour = Color4.White,
+                Position = Vector2.Zero,
+                Visible = true,
+            };
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            Drawables.Load();
+            Drawables.LoadComplete();
 
-            GL.Enable(EnableCap.DepthTest);
-            GL.DepthFunc(DepthFunction.Lequal);
-
-            GL.ClearColor(backgroundColour);
-
-            GL.Enable(EnableCap.Texture2D);
-            
-            GL.Enable(EnableCap.AlphaTest);
-            GL.AlphaFunc(AlphaFunction.Gequal, 0.5f);
-            
-            BeginLoad();
+            foreach (IResourceHolder i in Drawables.Children.List)
+            {
+                i.Load();
+                i.LoadComplete();
+            }
         }
 
-        public virtual void BeginLoad()
+        public override void Update()
         {
+            base.Update();
 
+            Drawables.Update();
+
+            foreach (IUpdatable i in Drawables.Children.List)
+                i.Update();
         }
 
-        protected override void OnResize(EventArgs e)
+        public override void Draw()
         {
-            base.OnResize(e);
+            base.Draw();
 
-            GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
+            Drawables.Draw();
+
+            foreach (IDrawable i in Drawables.Children.List)
+                i.Draw();
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
+        public override void Dispose()
         {
-            base.OnUpdateFrame(e);
+            base.Dispose();
 
-            KeyListener.Update();
-            MouseListener.Update();
-            MouseListener.Position = new Point (PointToClient(new System.Drawing.Point(Mouse.GetCursorState().X, Mouse.GetCursorState().Y)));
-
-            Update();
-
-            MouseListener.LateUpdate();
-            KeyListener.LateUpdate();
+            Drawables.Dispose();
         }
-
-        public virtual void Update()
-        {
-
-        }
-
-        protected override void OnRenderFrame(FrameEventArgs e)
-        {
-            base.OnRenderFrame(e);
-
-            ScreenBounds = new Rectangle (ClientRectangle);
-
-            GL.Viewport(0, 0, Width, Height);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-            projMatrix = Matrix4.CreateOrthographicOffCenter(ClientRectangle.Left, ClientRectangle.Right, ClientRectangle.Bottom, ClientRectangle.Top, -1.0f, 1.0f);
-            GL.LoadMatrix(ref projMatrix);
-
-            Draw();
-
-            SwapBuffers();
-        }
-
-        public virtual void Draw()
-        {
-
-        }        
     }
 }

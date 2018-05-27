@@ -37,20 +37,20 @@ namespace ShTK.Graphics
             Load(path);
         }
 
-        public Texture2D(string path, Rectangle LockbitsRange)
+        public Texture2D(string path, ShTK.Maths.Rectangle LockbitsRange)
         {
             Bitmap bitmap = new Bitmap(path);
-            lockbits = LockbitsRange;
+            lockbits = LockbitsRange.ToSystemDrawing();
             Load(bitmap, LockbitsRange);
         }
 
         public void Load(string path)
         {
             Bitmap bitmap = new Bitmap(path);
-            Load(bitmap, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
+            Load(bitmap, new Maths.Rectangle(0, 0, bitmap.Width, bitmap.Height));
         }
 
-        public void Load(Bitmap bitmap, Rectangle LockbitsRange)
+        public void Load(Bitmap bitmap, Maths.Rectangle LockbitsRange)
         {
             int id = GL.GenTexture();
 

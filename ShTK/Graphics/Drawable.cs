@@ -18,7 +18,7 @@ namespace ShTK.Graphics
     public abstract class Drawable : IDisposable, IUpdatable, IDrawable
     {
         #region fields
-        public abstract bool? Visible                { get; set; }
+        public abstract bool? Visible { get; set; } 
 
         private float alpha = 1;
 
@@ -60,9 +60,9 @@ namespace ShTK.Graphics
         public float Height { get { return Scale.Y; } set { Scale = new Vector2(Scale.X, Width); } }
 
         /// <summary>
-        /// Rectangular bounds of parent object. Set to <see cref="App.ScreenBounds"/> by default
+        /// Rectangular bounds of parent object. Set to <see cref="AppWindow.ScreenBounds"/> by default
         /// </summary>
-        public RectangleF parentBounds = App.ScreenBounds.ToRectangleF();
+        public RectangleF parentBounds = AppWindow.ScreenBounds.ToRectangleF();
 
         /// <summary>
         /// Bounds of drawable, read only

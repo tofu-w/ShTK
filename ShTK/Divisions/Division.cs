@@ -56,6 +56,7 @@ namespace ShTK.Divisions
             //Update transformations
             MaintainChildParentRelationship(Children.List, this);
 
+            //Fill
             box.Position = AbsolutePosition;
             box.Scale = Scale;
             box.Colour = Colour;

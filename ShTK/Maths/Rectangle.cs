@@ -1,8 +1,8 @@
-﻿using System.Drawing;
+﻿using OpenTK;
 
-namespace ShTK
+namespace ShTK.Maths
 {
-    public class Rectangle
+    public class Rectangle : IRectangle
     {
         public int X;
         public int Y;
@@ -67,6 +67,16 @@ namespace ShTK
         public RectangleF ToRectangleF()
         {
             return new RectangleF((float)X, (float)Y, (float)Width, (float)Height);
+        }
+
+        public Vector2 GetPosition()
+        {
+            return new Vector2(X, Y);
+        }
+
+        public Vector2 GetScale()
+        {
+            return new Vector2(Width, Height);
         }
     }
 }

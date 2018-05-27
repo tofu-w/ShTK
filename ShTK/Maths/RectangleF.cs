@@ -1,8 +1,8 @@
 ﻿using OpenTK;
 
-namespace ShTK
+namespace ShTK.Maths
 {
-    public class RectangleF
+    public class RectangleF : IRectangle
     {
         public float X;
         public float Y;
@@ -45,6 +45,21 @@ namespace ShTK
         public Rectangle ToRectangle()
         {
             return new Rectangle((int)X, (int)Y, (int)Width, (int)Height);
+        }
+
+        public System.Drawing.Rectangle ToSystemDrawing()
+        {
+            return new System.Drawing.Rectangle((int)X, (int)Y, (int)Width, (int)Height);
+        }
+
+        public Vector2 GetPosition()
+        {
+            return new Vector2(X, Y);
+        }
+
+        public Vector2 GetScale()
+        {
+            return new Vector2(Width, Height);
         }
     }
 }

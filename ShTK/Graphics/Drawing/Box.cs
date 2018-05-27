@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using ShTK.Maths;
 
 namespace ShTK.Graphics.Drawing
 {
@@ -25,7 +26,7 @@ namespace ShTK.Graphics.Drawing
 
         public void Draw()
         {
-            Draw(App.ScreenBounds);
+            Draw(AppWindow.ScreenBounds);
         }
 
         public void Draw (Rectangle Viewport)

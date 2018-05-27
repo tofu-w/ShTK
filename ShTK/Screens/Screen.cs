@@ -14,7 +14,7 @@ namespace ShTK.Screens
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
             Position = Vector2.Zero;
-            Scale = new Vector2(App.ScreenBounds.Width, App.ScreenBounds.Height);
+            Scale = new Vector2(AppWindow.ScreenBounds.Width, AppWindow.ScreenBounds.Height);
             Children.OnSiftItem += OnSift;
         }
 

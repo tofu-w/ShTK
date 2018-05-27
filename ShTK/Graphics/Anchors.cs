@@ -1,5 +1,5 @@
 ﻿using OpenTK;
-using System;
+using ShTK.Maths;
 
 namespace ShTK.Graphics
 {
