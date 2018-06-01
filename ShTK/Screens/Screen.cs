@@ -15,7 +15,7 @@ namespace ShTK.Screens
             Origin = Anchor.TopLeft;
             Position = Vector2.Zero;
             Scale = new Vector2(AppWindow.ScreenBounds.Width, AppWindow.ScreenBounds.Height);
-            Children.OnSiftItem += OnSift;
+            //Children.OnSiftItem += OnSift;
         }
 
         //Load all children when they get added as opposed to just on initialisation
@@ -32,12 +32,12 @@ namespace ShTK.Screens
 
         public override void LoadComplete()
         {
-            foreach (var c in Children.List)
-                c.LoadComplete();
+            //foreach (var c in Children.List)
+                //c.LoadComplete();
 
             Loaded = true;
 
-            Children.SiftQueue();
+            //Children.SiftQueue();
 
             base.LoadComplete();
         }
@@ -46,16 +46,16 @@ namespace ShTK.Screens
         {
             base.Update();
 
-            foreach (var c in Children.List)
-                c.Update();
+            //foreach (var c in Children.List)
+               // c.Update();
         }
 
         public override void LateUpdate()
         {
             base.LateUpdate();
 
-            foreach (var c in Children.List)
-                c.LateUpdate();
+            //foreach (var c in Children.List)
+               // c.LateUpdate();
         }
 
         public override void Draw()

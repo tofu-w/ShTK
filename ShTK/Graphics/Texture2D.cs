@@ -86,7 +86,7 @@ namespace ShTK.Graphics
 
         public override void Draw()
         {
-            if ((bool)Visible)
+            if (Visible ?? true)
             { 
                 base.Draw();
 

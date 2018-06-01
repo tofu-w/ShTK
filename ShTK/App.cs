@@ -10,30 +10,17 @@ namespace ShTK
 {
     public class App : AppWindow
     {
-        public Division Drawables;
+        public Drawable[] Children;
 
         public App()
         {
-            Drawables = new Division()
-            {
-                Anchor = Anchor.TopLeft,
-                Origin = Anchor.TopLeft,
-                Scale = new Vector2(ScreenBounds.Width, ScreenBounds.Height),
-                Alpha = 1,
-                Colour = Color4.White,
-                Position = Vector2.Zero,
-                Visible = true,
-            };
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            Drawables.Load();
-            Drawables.LoadComplete();
-
-            foreach (IResourceHolder i in Drawables.Children.List)
+            foreach (IResourceHolder i in Children)
             {
                 i.Load();
                 i.LoadComplete();
@@ -44,9 +31,7 @@ namespace ShTK
         {
             base.Update();
 
-            Drawables.Update();
-
-            foreach (IUpdatable i in Drawables.Children.List)
+            foreach (IUpdatable i in Children)
                 i.Update();
         }
 
@@ -54,17 +39,13 @@ namespace ShTK
         {
             base.Draw();
 
-            Drawables.Draw();
-
-            foreach (IDrawable i in Drawables.Children.List)
+            foreach (IDrawable i in Children)
                 i.Draw();
         }
 
         public override void Dispose()
         {
             base.Dispose();
-
-            Drawables.Dispose();
         }
     }
 }
