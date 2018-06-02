@@ -11,15 +11,74 @@ using ShTK.Content;
 namespace ShTK.Divisions
 {
     /// <summary>
-    /// Vanilla division, does not possess any specific use seperately
+    /// Vanilla division, handles loops for objects automatically
     /// </summary>
-    public class Division : Drawable, ICollection <IBaseDrawable> 
+    public class Division : BaseDivision
+    {
+        public override void Load()
+        {
+            base.Load();
+
+            foreach (IResourceHolder i in Children)
+                i.Load();
+        }
+
+        public override void LoadComplete()
+        {
+            base.LoadComplete();
+
+            foreach (IResourceHolder i in Children)
+                i.LoadComplete();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            foreach (IUpdatable i in Children)
+                i.Update();
+        }
+
+        public override void LateUpdate()
+        {
+            base.LateUpdate();
+
+            foreach (IUpdatable i in Children)
+                i.LateUpdate();
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+
+            foreach (IDrawable i in Children)
+                i.Draw();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            foreach (IDisposable i in Children)
+                i.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// All the base logic needed to make a division a division. Does not possess any specific use seperately
+    /// </summary>
+    public class BaseDivision : Drawable, ICollection <IBaseDrawable> 
     {
         Box box;
 
+        //An easy way to layout and arrange children during initialisation
         public Drawable[] Layout;
+
+        //New items that need to be sifted and loaded etc
         Lazylist<Drawable> Siftables;
-        public List<Drawable> Children = new List<Drawable>();
+
+        //Final list of drawables to be drawn to the screen
+        public List<Drawable> Children;
 
         /// <summary>
         /// Will draw a <see cref="Box"/> in place of the division.
@@ -39,8 +98,9 @@ namespace ShTK.Divisions
 
         public bool IsReadOnly => Layout.IsReadOnly;
 
-        public Division()
+        public BaseDivision()
         {
+            Children = new List<Drawable>();
             Siftables = new Lazylist<Drawable>();
             Siftables.OnSiftItem += OnSiftablesSift;
 
@@ -53,27 +113,18 @@ namespace ShTK.Divisions
 
         public override void Load()
         {
-            base.Load();
-
-            foreach (IResourceHolder i in Layout)
-            {
-                i.Load();
-                i.LoadComplete();
-            }
-        }
-
-        public override void LoadComplete()
-        {
             foreach (var i in Layout)
             {
                 Children.Add(i);
             }
+
+            base.Load();
         }
 
         public override void Update()
         {
             //Update transformations
-            MaintainChildParentRelationship(Layout, this);
+            MaintainChildParentRelationship(Children, this);
 
             //Fill
             box.Position = AbsolutePosition;
@@ -139,6 +190,7 @@ namespace ShTK.Divisions
             return false;
         }
 
+        //TODO
         public void CopyTo(IBaseDrawable[] array, int arrayIndex)
         {
             throw new NotImplementedException();

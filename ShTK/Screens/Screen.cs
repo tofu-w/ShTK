@@ -1,72 +1,67 @@
 ﻿using System;
-using OpenTK;
+using System.Collections.Generic;
+using ShTK.Content;
 using ShTK.Divisions;
 using ShTK.Graphics;
+using ShTK.Input;
 
 namespace ShTK.Screens
 {
     public class Screen : Division
     {
-        private bool Loaded;
+        public string Name;
+
+        protected ScreenOverhead Overhead => ScreenOverhead.GetInstance();
 
         public Screen()
         {
             Anchor = Anchor.TopLeft;
             Origin = Anchor.TopLeft;
-            Position = Vector2.Zero;
-            Scale = new Vector2(AppWindow.ScreenBounds.Width, AppWindow.ScreenBounds.Height);
-            //Children.OnSiftItem += OnSift;
         }
-
-        //Load all children when they get added as opposed to just on initialisation
-        private void OnSift(object o)
-        {
-            var BaseDrawable = (Drawable)o;
-            BaseDrawable.Load();
-
-            //If all the assets have already run their LoadComplete methods,
-            //load the child's LoadComplete method directly after sifting
-            if (Loaded)
-                BaseDrawable.LoadComplete();
-        }
-
-        public override void LoadComplete()
-        {
-            //foreach (var c in Children.List)
-                //c.LoadComplete();
-
-            Loaded = true;
-
-            //Children.SiftQueue();
-
-            base.LoadComplete();
-        }
-
-        public override void Update()
-        {
-            base.Update();
-
-            //foreach (var c in Children.List)
-               // c.Update();
-        }
-
-        public override void LateUpdate()
-        {
-            base.LateUpdate();
-
-            //foreach (var c in Children.List)
-               // c.LateUpdate();
-        }
-
-        public override void Draw()
-        {
-            base.Draw();
-        }
-
+        
         public override void Dispose()
         {
             base.Dispose();
             GC.SuppressFinalize(this);
+        }
+    }
+
+    public class ScreenOverhead
+    {
+        private Stack<Screen> ScreenStack = new Stack<Screen>();
+
+        private static ScreenOverhead instance = new ScreenOverhead();
+
+        public App app;
+
+        public static ScreenOverhead GetInstance()
+        {
+            return instance;
+        }
+
+        public Screen Peek()
+        {
+            if (ScreenStack.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return ScreenStack.Peek();
+            }
+        }
+
+        public void Push (Screen s)
+        {
+            bool firstScreen = ScreenStack.Count == 0;
+            ScreenStack.Push(s);
+            if (!firstScreen)
+                app.LoadAllContent();
+        }
+
+        ScreenOverhead()
+        {
+
         }
     }
 }

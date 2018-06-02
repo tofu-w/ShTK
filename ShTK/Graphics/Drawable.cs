@@ -146,7 +146,7 @@ namespace ShTK.Graphics
         /// </summary>
         /// <param name="Children"></param>
         /// <param name="Parent"></param>
-        public static void MaintainChildParentRelationship(Drawable[] Children, IDrawable Parent)
+        public static void MaintainChildParentRelationship(List <Drawable> Children, IDrawable Parent)
         {
             foreach (var c in Children)
             {
