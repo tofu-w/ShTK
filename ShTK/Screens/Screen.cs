@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ShTK.Content;
 using ShTK.Divisions;
 using ShTK.Graphics;
-using ShTK.Input;
 
 namespace ShTK.Screens
 {
@@ -55,6 +53,7 @@ namespace ShTK.Screens
         {
             bool firstScreen = ScreenStack.Count == 0;
             ScreenStack.Push(s);
+
             if (!firstScreen)
                 app.LoadAllContent();
         }

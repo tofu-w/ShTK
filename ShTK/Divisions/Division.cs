@@ -103,16 +103,19 @@ namespace ShTK.Divisions
             Children = new List<Drawable>();
             Siftables = new Lazylist<Drawable>();
             Siftables.OnSiftItem += OnSiftablesSift;
+        }
 
+        public override void Load()
+        {
+            //Add backing box
             box = new Box()
             {
                 Visible = true,
                 Colour = Color4.White
             };
-        }
 
-        public override void Load()
-        {
+            Children.Add(box);
+
             foreach (var i in Layout)
             {
                 Children.Add(i);
@@ -130,7 +133,7 @@ namespace ShTK.Divisions
             box.Position = AbsolutePosition;
             box.Scale = Scale;
             box.Colour = Colour;
-            box.alpha = Alpha;
+            box.Alpha = Alpha;
         }
 
         public override void Draw()

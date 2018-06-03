@@ -5,42 +5,38 @@ using ShTK.Maths;
 
 namespace ShTK.Graphics.Drawing
 {
-    //TODO: inherit from Drawable
-    public class Box
+    public class Box : Drawable
     {
-        public Color4 Colour { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Scale { get; set; }
-        public bool Visible { get; set; }
-        public float alpha;
 
         public Box()
         {
-            Visible = true;
-
-            if (Colour == new Color4(0.0f, 0.0f, 0.0f, 0.0f))
-            {
-                Colour = Color4.White;
-            }
         }
 
-        public void Draw()
+        public override bool? Visible { get; set; }
+        public override Color4 Colour { get; set; }
+        public override Vector2 Scale { get; set; }
+        public override float Rotation { get; set; }
+        public override Anchor Anchor { get; set; }
+        public override Anchor Origin { get; set; }
+        public override Vector2 Position { get; set; }
+
+        public override void Draw()
         {
             Draw(AppWindow.ScreenBounds);
         }
 
         public void Draw (Rectangle Viewport)
         {
-            if (Visible)
+            if (Visible ?? true)
             {
                 GL.Viewport(Viewport.ToSystemDrawing());
                 GL.Begin(PrimitiveType.Quads);
-                GL.Color4(Colour.R, Colour.G, Colour.B, alpha);
+                GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
 
-                GL.Vertex2(Position.X, Position.Y);
-                GL.Vertex2(Position.X, Position.Y + Scale.Y);
-                GL.Vertex2(Position.X + Scale.X, Position.Y + Scale.Y);
-                GL.Vertex2(Position.X + Scale.X, Position.Y);
+                GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);
+                GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);
+                GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);
+                GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);
 
                 GL.End();
             }

@@ -1,4 +1,6 @@
-﻿namespace ShTK.Tests
+﻿using OpenTK;
+
+namespace ShTK.Tests
 {
     class Program
     {

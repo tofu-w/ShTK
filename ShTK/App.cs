@@ -61,7 +61,7 @@ namespace ShTK
                 i.LoadComplete();
             }
 
-            ActiveScreen.LoadComplete();
+            ActiveScreen?.LoadComplete();
         }
 
         public override void Update()
@@ -74,8 +74,8 @@ namespace ShTK
                 i.LateUpdate();
             }
 
-            ActiveScreen.Update();
-            ActiveScreen.LateUpdate();
+            ActiveScreen?.Update();
+            ActiveScreen?.LateUpdate();
         }
 
         public override void Draw()
@@ -86,7 +86,8 @@ namespace ShTK
             {
                 i.Draw();
             }
-            ActiveScreen.Draw();
+
+            ActiveScreen?.Draw();
         }
 
         public override void Dispose()
