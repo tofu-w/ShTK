@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using ShTK.Content;
+using ShTK.Graphics.OpenGL.Shaders;
 
 namespace ShTK.Graphics
 {
@@ -32,13 +33,17 @@ namespace ShTK.Graphics
         float Alpha { get; set; }
         
         /// <summary>
-        /// A vector2 of the objects coordinates. 
+        /// A vector2 of the object's coordinates. 
         /// Will be affected by fields such as <see cref="Anchor"/> and <see cref="Origin"/>,
         /// relationships with parents will also affect position behaviour
         /// </summary>
         Vector2 Position { get; set; }
 
-        Vector2 AbsolutePosition { get; set; }
+        /// <summary>
+        /// An absolute coordinate of the object's position.
+        /// Relative to absolutely nothing. Use only in low level code
+        /// </summary>
+        Vector2 AbsolutePosition { get; }
 
         /// <summary>
         /// A vector2 of the size
@@ -57,5 +62,10 @@ namespace ShTK.Graphics
         /// The tint of the drawable
         /// </summary>
         Color4 Colour { get; }
+
+        /// <summary>
+        /// A set of shaders
+        /// </summary>
+        VSFS vsfs { get; }
     }
 }

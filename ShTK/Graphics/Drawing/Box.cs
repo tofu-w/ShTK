@@ -1,45 +1,39 @@
-﻿using OpenTK;
-using OpenTK.Graphics;
+﻿using System.Collections.Generic;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using ShTK.Maths;
+using ShTK.Graphics.OpenGL;
+
 
 namespace ShTK.Graphics.Drawing
 {
-    public class Box : Drawable
+    public class Box : Shape
     {
+        public override List<Vector2> VertexData
+        {
+            get
+            {
+                List<Vector2> n = new List<Vector2>();
+
+                n.Add(new Vector2(AbsolutePosition.X, AbsolutePosition.Y));                         //Top left
+                n.Add(new Vector2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y));               //Top right    
+                n.Add(new Vector2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y));               //Bottom left  
+
+                //Special thanks to NeRd for spottign a missing comma for this item
+                n.Add(new Vector2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y));     //Bottom right 
+                n.Add(new Vector2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y));               //Bottom left  
+                n.Add(new Vector2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y));               //Top right    
+
+                return n;
+            }
+            set { }
+        }
 
         public Box()
         {
-        }
+            VertexData = new List<Vector2>();
+            AddOrthographicToMviewData(true);
 
-        public override bool? Visible { get; set; }
-        public override Color4 Colour { get; set; }
-        public override Vector2 Scale { get; set; }
-        public override float Rotation { get; set; }
-        public override Anchor Anchor { get; set; }
-        public override Anchor Origin { get; set; }
-        public override Vector2 Position { get; set; }
-
-        public override void Draw()
-        {
-            Draw(AppWindow.ScreenBounds);
-        }
-
-        public void Draw (Rectangle Viewport)
-        {
-            if (Visible ?? true)
-            {
-                GL.Viewport(Viewport.ToSystemDrawing());
-                GL.Begin(PrimitiveType.Quads);
-                GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
-
-                GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);
-                GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);
-                GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);
-                GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);
-
-                GL.End();
-            }
+            PrimitiveType = PrimitiveType.Triangles;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
+using ShTK.Graphics.OpenGL.Shaders;
 using ShTK.Maths;
 
 namespace ShTK.Graphics
@@ -88,13 +89,17 @@ namespace ShTK.Graphics
                     Anchors.VectorFromAnchor(Anchor, parentBounds).Y - Anchors.VectorFromAnchor(Origin, Rectangle).Y + Position.Y * 2
                 );
             }
-            set
+        }
+
+        public virtual VSFS vsfs
+        {
+            get
             {
-                throw new Exception("AbsolutePosition is a readonly property and cannot be set, use Position, X or Y properties instead");
+                return AppWindow.vsfs;
             }
         }
 
-#endregion
+        #endregion
 
         #region methods
 
@@ -108,7 +113,7 @@ namespace ShTK.Graphics
 
         public virtual void LoadComplete() { }
 
-        public virtual void Draw() { Console.WriteLine(Anchors.VectorFromAnchor(Anchor, parentBounds).X - Anchors.VectorFromAnchor(Origin, Rectangle).X + Position.X * 2); }
+        public virtual void Draw() { }
 
         public virtual void Update() {  }
 
@@ -163,7 +168,6 @@ namespace ShTK.Graphics
         {
             //TODO create ONE IDrawable parent
             Child.Visible = Parent.Visible;
-            Child.Colour = Parent.Colour;
             Child.ParentRotation = Parent.Rotation;
             Child.ParentAlpha = Parent.Alpha;
             Child.parentBounds = new RectangleF(Parent.AbsolutePosition, Parent.Scale);

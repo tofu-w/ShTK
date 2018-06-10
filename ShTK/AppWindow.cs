@@ -6,6 +6,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using ShTK.Input;
 using ShTK.Maths;
+using ShTK.Graphics.OpenGL.Shaders;
 
 namespace ShTK
 {
@@ -20,9 +21,12 @@ namespace ShTK
         public static KeyListener KeyListener = new KeyListener();
         public static MouseListener MouseListener = new MouseListener();
 
-        public AppWindow() : base(1366, 768, GraphicsMode.Default, string.Format("Running {0} - Powered by ShTK", Assembly.GetCallingAssembly().GetName().Name))
+        public static VSFS vsfs;
+
+        public AppWindow() : base(1366, 768, GraphicsMode.Default, $"Running {Assembly.GetCallingAssembly().GetName().Name} - Powered by ShTK")
         {
             ScreenBounds = new Rectangle(ClientRectangle);
+            vsfs = new VSFS(GL.CreateProgram());
         }
 
         protected override void OnLoad(EventArgs e)
@@ -47,6 +51,8 @@ namespace ShTK
 
             GL.Enable(EnableCap.AlphaTest);
             GL.AlphaFunc(AlphaFunction.Gequal, 0.5f);
+
+            vsfs.Load();
         }
 
         public virtual void BeginLoad()
@@ -85,15 +91,16 @@ namespace ShTK
             base.OnRenderFrame(e);
 
             ScreenBounds = new Rectangle (ClientRectangle);
-
+            
             GL.Viewport(0, 0, Width, Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Enable(EnableCap.DepthTest);
 
             projMatrix = Matrix4.CreateOrthographicOffCenter(ClientRectangle.Left, ClientRectangle.Right, ClientRectangle.Bottom, ClientRectangle.Top, -1.0f, 1.0f);
             GL.LoadMatrix(ref projMatrix);
-
+            
             Draw();
-
+                     
             SwapBuffers();
         }
 
@@ -103,3 +110,5 @@ namespace ShTK
         }        
     }
 }
+
+//despacito 2

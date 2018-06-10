@@ -59,6 +59,10 @@
     <Compile Include="Graphics\Drawing\Text.cs" />
     <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Content\IResourceHolder.cs" />
+    <Compile Include="Graphics\OpenGL\Shaders\Shader.cs" />
+    <Compile Include="Graphics\OpenGL\Shaders\VertexAttributes.cs" />
+    <Compile Include="Graphics\OpenGL\Shaders\VSFS.cs" />
+    <Compile Include="Graphics\OpenGL\Shape.cs" />
     <Compile Include="Graphics\Spritefont.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\KeyListener.cs" />
@@ -79,6 +83,12 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="ShTK_res\font.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ShTK_res\Shaders\fs.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ShTK_res\Shaders\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -108,5 +118,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

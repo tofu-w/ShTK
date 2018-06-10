@@ -3,26 +3,49 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
 using ShTK.Maths;
+using ShTK.Divisions;
 
 namespace ShTK.Graphics
 {
-    public class Spritefont : IDisposable
+    public class Spritefont : Division
     {
         string path;
         Vector2 CellSize;
 
-        public string text;
-        public int size = 30;
+        private string text;
 
-        public Color4 Colour { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Scale { get; set; }
-        public bool Visible { get; set; }
+        /// <summary>
+        /// The text to display
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+            set
+            {
+                text = value;
+                reloadText();
+            }
+        }
+
+        /// <summary>
+        /// The amount of pixels between each character, can be left null to default to width
+        /// </summary>
+        public int? Spacing;
 
         Texture2D sheet;
-        List <Texture2D> Char;
 
         Vector2 count;
+
+        public override bool? Visible       { get; set; }
+        public override Color4 Colour       { get; set; }
+        public override Vector2 Scale       { get; set; }
+        public override float Rotation      { get; set; }
+        public override Anchor Anchor       { get; set; }
+        public override Anchor Origin       { get; set; }
+        public override Vector2 Position    { get; set; }
 
         public Spritefont(string path, Vector2 cellSize)
         {
@@ -30,35 +53,46 @@ namespace ShTK.Graphics
             this.CellSize = cellSize;
 
             Visible = true;
-            Colour = Color4.White;
+
+            Layout = new Drawable[]
+            {
+
+            };
         }
 
-        public void Load()
+        /// <summary>
+        /// Called every time the <see cref="Text"/> value is setted
+        /// </summary>
+        void reloadText()
         {
+            //TODO make sheets the spitefont
             sheet = new Texture2D(path);
-            Char = new List<Texture2D>();
-
             count = new Vector2(sheet.Width / CellSize.X, sheet.Height / CellSize.Y);
-            
-            int a = 0;
-            foreach (char c in text)
+
+            Children.Clear();
+
+            for (int i = 0; i < Text.Length; i++)
             {
-                if (c != ' ')
+                //storing the character for inspection within the scope of this for loop
+                Char c = Text.ToCharArray()[i];
+
+                if (c != ' ')   //Checks for spaces
                 {
-                    Char.Add(new Texture2D(path, PointFromChar(c))
+                    Children.Add(new Texture2D(path, PointFromChar(c))
                     {
+                        Position = Position,
                         Scale = Scale,
-                        Position = new Vector2(Position.X + (count.X / 2) * a, Position.Y),
                         Visible = true
                     });
                 }
-
-                a++;
             }
-
-            sheet.Dispose();
         }
 
+        /// <summary>
+        /// Converts a character to a Lockbitsrange rectangle
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         Rectangle PointFromChar(char c)
         {
             int n = c;
@@ -79,17 +113,23 @@ namespace ShTK.Graphics
             return new Rectangle(p.X * CellSize.X, p.Y * CellSize.Y, CellSize.X, CellSize.Y);
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            foreach (Texture2D t in Char)
-                t.Draw();
+            base.Draw();
+
+            if (Visible ?? true)
+            {
+                //Set the position of characters during runtime
+                for (int i = 0; i < Children.Count; i++)
+                {
+                    Children[i].Position = new Vector2(Position.X + (Spacing ?? Scale.X) * i, Position.Y);
+                }
+            }
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             GC.SuppressFinalize(this);
         }
-
-        public void Update() { }
     }
 }

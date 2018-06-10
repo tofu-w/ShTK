@@ -7,6 +7,7 @@ using ShTK.Graphics;
 using ShTK.Graphics.Drawing;
 using ShTK.Generic;
 using ShTK.Content;
+using ShTK.Graphics.OpenGL.Shaders;
 
 namespace ShTK.Divisions
 {
@@ -98,6 +99,8 @@ namespace ShTK.Divisions
 
         public bool IsReadOnly => Layout.IsReadOnly;
 
+        public override VSFS vsfs { get; }
+
         public BaseDivision()
         {
             Children = new List<Drawable>();
@@ -169,7 +172,7 @@ namespace ShTK.Divisions
             }
             catch
             {
-                throw new Exception($"Could not parse type {i.GetType()}. Try pushing something of type IBaseDrawable or similar");
+                throw new Exception($"Could not parse type {i.GetType()} or its children. Try pushing something of type IBaseDrawable or similar");
             }
         }
 

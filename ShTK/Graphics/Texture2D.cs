@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using ShTK.Graphics.OpenGL.Shaders;
 
 namespace ShTK.Graphics
 {
@@ -19,6 +20,7 @@ namespace ShTK.Graphics
         public override Anchor Anchor { get; set; }
         public override Anchor Origin { get; set; }
         public override Vector2 Position { get; set; }
+        public override VSFS vsfs { get; }
 
         public Texture2D(int id, int width, int height)
         {
@@ -96,15 +98,15 @@ namespace ShTK.Graphics
                 GL.Begin(PrimitiveType.Triangles);
                 GL.Color4(Colour.R, Colour.G, Colour.B, Alpha);
 
-                //△FDE
-                GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F
-                GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //D
-                GL.TexCoord2(0, 1); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);                   //E
-
                 //△ABC
                 GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //A
                 GL.TexCoord2(1, 0); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y);                   //B
                 GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //C
+
+                //△DEF
+                GL.TexCoord2(1, 1); GL.Vertex2(AbsolutePosition.X + Scale.X, AbsolutePosition.Y + Scale.Y);         //D
+                GL.TexCoord2(0, 1); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y + Scale.Y);                   //E
+                GL.TexCoord2(0, 0); GL.Vertex2(AbsolutePosition.X, AbsolutePosition.Y);                             //F
 
                 GL.End();
             }
