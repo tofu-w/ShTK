@@ -1,5 +1,4 @@
 # ShTK
-A high level, multi purpose, .net OpenGL framework to build simple graphics applications with [NOT FINISHED]
+The predecessor to Bean. 
 
-# Not finished!
-go away
+# LEGACY USE ONLY
